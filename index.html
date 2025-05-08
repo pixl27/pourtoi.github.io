@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pour toi Gracy - Accueil</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="starryNightCanvas"></canvas>
+    <header>
+        <h1>Pour toi Gracy</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="souvenirs.html">Souvenirs</a></li>
+                <li><a href="ressentiments.html">Ce que je ressens</a></li>
+                <li><a href="et-maintenant.html">Et maintenant ?</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="accueil">
+        <div class="message-entree">
+            <p>
+                <span class="phrase-1">"Ce site n’est pas pour te convaincre.</span>
+                <span class="phrase-2">Il est juste là pour te dire ce que j’ai encore sur le cœur."</span>
+            </p>
+            <button id="commencerBtn">Commencer</button>
+        </div>
+    </main>
+
+    <div class="lecteur-audio-conteneur">
+        <audio id="musiqueFond" loop>
+            <source src="musique-douce.mp3" type="audio/mpeg">
+            Votre navigateur ne supporte pas l'élément audio.
+        </audio>
+        <button id="toggleMusiqueBtn" aria-label="Play/Pause Musique">
+            <span class="icon-play">▶️</span>
+            <span class="icon-pause" style="display:none;">⏸️</span>
+        </button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pour toi Gracy - Souvenirs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-souvenirs">
+    <div id="backdrop-overlay"></div>
+    <div id="souvenir-modal">
+        <div class="modal-contenu"> <!-- Reverted class to modal-contenu -->
+            <span class="modal-fermer">&times;</span> <!-- Reverted to span with class modal-fermer -->
+            <img id="modal-image" src="" alt="Souvenir Image" style="display:none; max-width: 100%; height: auto; margin-bottom: 15px; border-radius: 8px;">
+            <h3 id="modal-titre"></h3>
+            <div id="modal-paragraphes">
+                <!-- Les paragraphes du souvenir seront injectés ici -->
+            </div>
+        </div>
+    </div>
+    <canvas id="starryNightCanvas"></canvas>
+    <header>
+        <h1>Pour toi Gracy</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="souvenirs.html">Souvenirs</a></li>
+                <li><a href="ressentiments.html">Ce que je ressens</a></li>
+                <li><a href="et-maintenant.html">Et maintenant ?</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="souvenirs">
+        <h2>Souvenirs <span class="heartbeat">❤️</span></h2>
+        <p class="souvenirs-intro">Quelques moments précieux, gravés à jamais.</p>
+        <div class="cartes-souvenirs">
+            <div class="carte-souvenir" data-souvenir-id="1" data-modal-image="placeholder-image-1.jpg">
+                <div class="carte-avant" style="background-image: url('placeholder-image-1.jpg');">
+                    <p>🌟 La fille et le garçon</p>
+                </div>
+                <div class="carte-arriere">
+                    <h3>🌟 Souvenir 1 : "La fille qui pensait ne rien mériter"</h3>
+                    <p>Il était une fois une petite fille. Elle avait vécu beaucoup de choses qu’elle ne méritait pas. Elle s’était habituée à souffrir en silence, à croire qu’elle valait moins, qu’elle ne méritait ni bonheur ni amour.</p>
+                    <p>Puis un jour, elle rencontra un petit garçon. Il n’avait pas confiance en lui, toujours perdu dans ses pensées, souvent seul. Mais elle lui tendit la main. C’est elle qui tomba amoureuse en premier. Lui, il ne savait pas encore… jusqu’à ce qu’il réalise qu’elle était ce qu’il avait toujours cherché sans le savoir.</p>
+                    <p>Il commença à l’aimer à sa manière : en l’écoutant, en l’encourageant, en lui offrant des cadeaux pour lui rappeler qu’elle méritait le bonheur, qu’elle était précieuse, forte, et belle. Pour une fois, elle n’était plus seule. Et lui non plus.</p>
+                </div>
+            </div>
+            <div class="carte-souvenir" data-souvenir-id="2" data-modal-image="placeholder-image-default.jpg"> <!-- Assuming a default or specific image for modal -->
+                <div class="carte-avant" style="background-image: url('placeholder-image-default.jpg');">
+                    <p>🩶 Les excuses du cœur</p>
+                </div>
+                <div class="carte-arriere">
+                    <h3>🩶 Souvenir 2 : "Le garçon maladroit"</h3>
+                    <p>Le petit garçon faisait de son mieux… mais parfois, ce n’était pas assez. Il oubliait les petites attentions, pensait qu’elle savait déjà combien il l’aimait, et sans le vouloir, il devint moins présent.</p>
+                    <p>Il pensait que parce qu’elle l’aimait, elle serait toujours là. Et c’était sa plus grosse erreur.</p>
+                    <p>Quand il a compris qu’il risquait de la perdre, son cœur s’est brisé. Il a pleuré. Il s’est détesté pour ne pas avoir été plus attentif, pour ne pas lui avoir montré assez à quel point elle était importante.</p>
+                    <p>Aujourd’hui, il s’excuse. Pas avec des mots jetés en l’air, mais avec tout son cœur. Il sait qu’il peut faire mieux. Il veut faire mieux. Pour elle. Pour eux.</p>
+                </div>
+            </div>
+            <div class="carte-souvenir" data-souvenir-id="3" data-modal-image="placeholder-image-2.jpg">
+                <div class="carte-avant" style="background-image: url('placeholder-image-2.jpg');">
+                    <p>❤️ Un souhait sincère</p>
+                </div>
+                <div class="carte-arriere">
+                    <h3>❤️ Souvenir 3 : "Tout ce qu’il veut, c’est son bonheur"</h3>
+                    <p>Le petit garçon n’a qu’un seul souhait : qu’elle soit heureuse. Peu importe où, peu importe quand.</p>
+                    <p>Mais au fond de lui, ce qu’il espère encore, c’est qu’ils puissent redevenir comme avant. Qu’ils s’aiment encore comme au début. Qu’ils rient, qu’ils se parlent, qu’ils rêvent ensemble.</p>
+                    <p>Il ne veut pas la retenir. Il ne veut pas lui faire du mal. Il veut juste qu’elle sache :</p>
+                    <p>“Je t’aime encore. Profondément. Et si tu veux encore de moi, je suis là, prêt à tout recommencer, plus fort, plus vrai, plus présent.”</p>
+                </div>
+            </div>
+            <!-- Ajouter plus de cartes ici si besoin -->
+        </div>
+    </main>
+
+    <div class="lecteur-audio-conteneur">
+        <audio id="musiqueFond" loop>
+            <source src="musique-douce.mp3" type="audio/mpeg">
+            Votre navigateur ne supporte pas l'élément audio.
+        </audio>
+        <button id="toggleMusiqueBtn" aria-label="Play/Pause Musique">
+            <span class="icon-play">▶️</span>
+            <span class="icon-pause" style="display:none;">⏸️</span>
+        </button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
