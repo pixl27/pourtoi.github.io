@@ -10,20 +10,40 @@
     <canvas id="starryNightCanvas"></canvas>
     <header>
         <h1>Pour toi Gracy</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="souvenirs.html">Souvenirs</a></li>
-                <li><a href="ressentiments.html">Ce que je ressens</a></li>
-                <li><a href="et-maintenant.html">Et maintenant ?</a></li>
-            </ul>
+        <nav class="stepper-nav">
+            <ol>
+                <li class="step active" data-step="1" data-page="index.html">
+                    <a href="index.html">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Accueil</span>
+                    </a>
+                </li>
+                <li class="step" data-step="2" data-page="souvenirs.html">
+                    <a href="souvenirs.html">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Souvenirs</span>
+                    </a>
+                </li>
+                <li class="step" data-step="3" data-page="ressentiments.html">
+                    <a href="ressentiments.html">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Ce que je ressens</span>
+                    </a>
+                </li>
+                <li class="step" data-step="4" data-page="et-maintenant.html">
+                    <a href="et-maintenant.html">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Et maintenant ?</span>
+                    </a>
+                </li>
+            </ol>
         </nav>
     </header>
     <main id="accueil">
         <div class="message-entree">
             <p>
-                <span class="phrase-1">"Ce site n’est pas pour te convaincre.</span>
-                <span class="phrase-2">Il est juste là pour te dire ce que j’ai encore sur le cœur."</span>
+                <span class="phrase-1">Nos 20 Mois ensemble</span>
+                <span class="phrase-2">à toi la seule et unique femme de ma vie</span>
             </p>
             <button id="commencerBtn">Commencer</button>
         </div>
@@ -31,13 +51,14 @@
 
     <div class="lecteur-audio-conteneur">
         <audio id="musiqueFond" loop>
-            <source src="musique-douce.mp3" type="audio/mpeg">
+            <source src="song1.mp3" type="audio/mpeg">
             Votre navigateur ne supporte pas l'élément audio.
         </audio>
         <button id="toggleMusiqueBtn" aria-label="Play/Pause Musique">
             <span class="icon-play">▶️</span>
             <span class="icon-pause" style="display:none;">⏸️</span>
         </button>
+        <span id="autoplay-status" class="autoplay-message" style="display:none;"></span>
     </div>
 
     <footer>

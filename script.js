@@ -47,21 +47,128 @@ document.addEventListener('DOMContentLoaded', () => {
         // Similar to parlerBtn, direct removal is tricky without original function.
     }
 
-    // New logic for "Mon ultime cadeau"
+    // New logic for "Mon ultime cadeau" and dramatic text reveal
     const ultimeCadeauBtn = document.getElementById('ultimeCadeauBtn');
     const cadeauxConteneur = document.getElementById('cadeauxConteneur');
+    const dramaticTextContainer = document.querySelector('.dramatic-text-reveal');
 
-    if (ultimeCadeauBtn && cadeauxConteneur) {
+    // Story Collage elements
+    const storyCollageOverlay = document.getElementById('story-collage-overlay');
+    const storyItems = document.querySelectorAll('.story-item');
+    const storyVideo = document.getElementById('story-item-1');
+    const loveMessage = document.getElementById('love-message'); // Added
+
+    if (dramaticTextContainer && ultimeCadeauBtn) {
+        const textSegments = dramaticTextContainer.querySelectorAll('.text-segment');
+        let delay = 500; // Initial delay before the first text segment appears
+        const segmentRevealDelay = 150; // Delay between each segment appearing (ms)
+
+        textSegments.forEach((segment, index) => {
+            setTimeout(() => {
+                segment.classList.add('visible');
+            }, delay + index * segmentRevealDelay);
+        });
+
+        // Calculate total time for text animation
+        const totalTextAnimationTime = delay + textSegments.length * segmentRevealDelay + 800; // Extra 800ms for last segment transition
+
+        setTimeout(() => {
+            ultimeCadeauBtn.classList.add('visible');
+        }, totalTextAnimationTime);
+    }
+
+    if (ultimeCadeauBtn) {
         ultimeCadeauBtn.addEventListener('click', () => {
-            cadeauxConteneur.classList.add('visible');
-            // Optionally hide the button after click, or change its state
-            // ultimeCadeauBtn.style.display = 'none'; 
+            if (storyCollageOverlay && storyItems.length > 0) {
+                storyCollageOverlay.classList.add('visible');
+                
+                storyItems.forEach((item) => {
+                    item.classList.add('visible');
+                });
+
+                if (loveMessage) { // Added
+                    loveMessage.classList.add('visible');
+                }
+
+                if (storyVideo && typeof storyVideo.play === 'function') {
+                    storyVideo.currentTime = 0;
+                    storyVideo.play().catch(error => {
+                        console.warn("Video autoplay prevented for story1.mp4:", error);
+                    });
+                }
+
+                // Updated duration for collage:
+                // Last story item (item 4) starts at 4.4s, duration 1.2s -> finishes at 5.6s
+                // Love message starts at 5.7s, duration 1s -> finishes at 6.7s
+                // Add 3 seconds viewing time: 6.7s + 3s = 9.7s
+                const collageDisplayDuration = 9700; 
+
+                setTimeout(() => {
+                    storyCollageOverlay.classList.remove('visible');
+                    if (storyVideo && typeof storyVideo.pause === 'function') {
+                        storyVideo.pause();
+                    }
+                    storyItems.forEach(item => item.classList.remove('visible'));
+                    if (loveMessage) { // Added
+                        loveMessage.classList.remove('visible');
+                    }
+
+                    if (cadeauxConteneur) {
+                        cadeauxConteneur.classList.add('visible');
+                    }
+                }, collageDisplayDuration);
+
+            } else {
+                if (cadeauxConteneur) {
+                    cadeauxConteneur.classList.add('visible');
+                }
+            }
         });
     }
 
     // Gestion de la navigation active
     const navLinks = document.querySelectorAll('nav ul li a');
     const currentPage = window.location.pathname.split('/').pop();
+
+    // New Stepper Navigation Logic
+    const stepperNav = document.querySelector('.stepper-nav');
+    if (stepperNav) {
+        const steps = stepperNav.querySelectorAll('.step');
+        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+        let activeStepFound = false;
+
+        steps.forEach(step => {
+            const page = step.dataset.page;
+            if (page === currentPath) {
+                step.classList.add('active');
+                activeStepFound = true;
+            } else if (!activeStepFound) {
+                step.classList.add('completed');
+            }
+
+            // Make previous steps clickable to navigate back
+            if (step.classList.contains('completed') || step.classList.contains('active')) {
+                // Link is already there, just ensure styling or behavior is as expected
+            } else {
+                // Prevent clicking on future steps if desired (optional)
+                // const link = step.querySelector('a');
+                // if (link) {
+                //     link.addEventListener('click', (e) => e.preventDefault());
+                // }
+            }
+        });
+    }
+    // End of New Stepper Navigation Logic
+
+    // Comment out or remove old active link logic if stepper handles it all
+    /*
+    navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href');
+        if (linkPage === currentPage || (currentPage === '' && linkPage === 'index.html')) {
+            link.classList.add('active');
+        }
+    });
+    */
 
     // Backdrop overlay for souvenir cards
     const backdropOverlay = document.getElementById('backdrop-overlay');
@@ -72,13 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalParagraphesContainer = document.getElementById('modal-paragraphes');
     const modalImageElement = document.getElementById('modal-image'); // Ensure this element is selected
     const modalFermer = souvenirModal ? souvenirModal.querySelector('.modal-fermer') : null;
-
-    navLinks.forEach(link => {
-        const linkPage = link.getAttribute('href');
-        if (linkPage === currentPage || (currentPage === '' && linkPage === 'index.html')) {
-            link.classList.add('active');
-        }
-    });
 
     // Logique pour la page Souvenirs - Cartes interactives & Modal
     const cartesSouvenirs = document.querySelectorAll('.carte-souvenir');
@@ -206,28 +306,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Logique pour la page Ce que je ressens - Lettre animée
     const texteLettreElement = document.getElementById('texteLettre');
     if (texteLettreElement) {
-        const texteOriginal = `💌 Lettre : "Je suis encore là, pour toi."
-Mon cœur,
+        const texteOriginal = `Mon amour,
 
-Je ne sais pas vraiment comment commencer cette lettre, mais je veux que tu la lises en sentant chaque mot comme une caresse douce, pas comme une pression.
+Je t’écris avec le cœur ouvert, plein d’espoir et d’amour pour toi.
 
-Je suis désolé. Pour mes absences, mes maladresses, pour les fois où j’ai pensé que tu savais ce que je ressentais, alors que j’aurais dû te le montrer davantage. J’ai fait des erreurs, c’est vrai… mais jamais avec de mauvaises intentions. Mon cœur, lui, n’a jamais cessé de t’aimer.
+Je sais qu’on traverse une période compliquée, qu’il y a eu des hauts et des bas, des moments où j’ai été maladroit, peut-être absent sur certaines choses importantes. Et pour ça, je m’excuse. Mais ce que je ressens pour toi est toujours là, sincère et profond.
 
-Tu as peut-être besoin de temps, de silence, de te retrouver, et je comprends. Tu vis des choses, tu as des responsabilités, peut-être des doutes aussi. Je ne t’en veux pas. Je veux juste que tu saches que même si je me sens loin de toi en ce moment, je suis encore là.
-Pas pour te retenir. Pas pour t'étouffer. Mais pour t’aimer, encore.
+Je veux que tu saches que je suis prêt à changer, à m’améliorer, à être un meilleur homme pour toi. Pas juste avec des mots, mais avec des gestes, des attentions, de la patience. Parce que tu mérites quelqu’un qui te comprend, qui te soutient, et je veux être cette personne.
 
-Je rêve souvent de nous retrouver. De revivre nos rires, nos confidences, nos regards. J’aimerais que ce “nous” qu’on a construit ne s’effondre pas. Pas comme ça.
-Je sais que ce n’est pas facile. Mais je suis prêt à faire ce qu’il faut. À respecter ton espace, à patienter, à ne plus oublier ce qui est essentiel : toi.
+Je ne te demande pas de revenir comme avant d’un coup, je sais que tu as tes projets, tes préoccupations, ton rythme. Et je respecte ça. Mais au fond de moi, j’espère encore qu’il reste un bout de place dans ton cœur pour moi.
+Je t’aime. Et j’espère que tu m’aimes encore un peu aussi.
 
-Si un jour, même dans un mois ou dans un soupir, tu ressens encore un peu de ce que tu avais pour moi, je t’attendrai.
-Et si tu veux encore me laisser une place dans ton cœur, je te promets de la mériter chaque jour.
+Je crois encore en nous. Je crois que ce qu’on a construit peut être réparé, renforcé, rendu encore plus beau.
 
-Je t’aime.
-Et peu importe ce que l’avenir décidera pour nous, je te porterai toujours en moi avec tendresse.
+Je suis là, et je serai là. Avec tendresse, patience, et beaucoup d’amour.
 
-Toujours là,
-Ton petit garçon perdu,
-qui t’aime encore.`;
+Toujours ton petit garçon,
+qui veut juste te voir sourire à nouveau avec lui.`;
 
         let index = 0;
         texteLettreElement.textContent = ''; // Vider le contenu initial pour l'animation de frappe
@@ -252,23 +347,40 @@ qui t’aime encore.`;
     const toggleMusiqueBtn = document.getElementById('toggleMusiqueBtn');
     const iconPlay = toggleMusiqueBtn ? toggleMusiqueBtn.querySelector('.icon-play') : null;
     const iconPause = toggleMusiqueBtn ? toggleMusiqueBtn.querySelector('.icon-pause') : null;
+    const autoplayStatusMsg = document.getElementById('autoplay-status'); // Get the new message element
 
-    if (musiqueFond && toggleMusiqueBtn && iconPlay && iconPause) {
-        // Essayer de démarrer la musique automatiquement (peut être bloqué par le navigateur)
-        // Pour une meilleure expérience utilisateur, il est souvent préférable de laisser l'utilisateur initier la lecture.
-        // musiqueFond.play().catch(error => console.log("La lecture automatique a été bloquée."));
-        // iconPlay.style.display = 'none';
-        // iconPause.style.display = 'inline';
+    if (musiqueFond && toggleMusiqueBtn && iconPlay && iconPause && autoplayStatusMsg) { // Check for autoplayStatusMsg
+        let autoplayBlockedInitially = false;
+
+        // Attempt to autoplay music when the page loads
+        musiqueFond.play().then(() => {
+            // Autoplay started successfully
+            iconPlay.style.display = 'none';
+            iconPause.style.display = 'inline';
+            autoplayStatusMsg.style.display = 'none'; // Hide message
+            console.log("Background music autoplay started.");
+        }).catch(error => {
+            autoplayBlockedInitially = true;
+            console.log("Background music autoplay was blocked by the browser. User interaction is required to start the music.");
+            // Ensure icons are in the 'paused' state (i.e., show play button) if autoplay fails
+            iconPlay.style.display = 'inline';
+            iconPause.style.display = 'none';
+            autoplayStatusMsg.textContent = "Click ▶️ to start music"; // Set message text
+            autoplayStatusMsg.style.display = 'inline'; // Show message
+        });
 
         toggleMusiqueBtn.addEventListener('click', () => {
             if (musiqueFond.paused) {
-                musiqueFond.play();
-                iconPlay.style.display = 'none';
-                iconPause.style.display = 'inline';
+                musiqueFond.play().catch(err => {
+                    console.error("Error playing music after click:", err);
+                    // Optionally update message if manual play fails for some reason
+                    if (autoplayBlockedInitially) {
+                         autoplayStatusMsg.textContent = "Could not play music.";
+                         autoplayStatusMsg.style.display = 'inline';
+                    }
+                });
             } else {
                 musiqueFond.pause();
-                iconPlay.style.display = 'inline';
-                iconPause.style.display = 'none';
             }
         });
 
@@ -276,10 +388,15 @@ qui t’aime encore.`;
         musiqueFond.onpause = () => {
             iconPlay.style.display = 'inline';
             iconPause.style.display = 'none';
+            // If autoplay was initially blocked and music is paused by user,
+            // and it had played at least a bit, the message can remain hidden.
+            // The play icon itself is the cue.
         };
         musiqueFond.onplay = () => {
             iconPlay.style.display = 'none';
             iconPause.style.display = 'inline';
+            autoplayStatusMsg.style.display = 'none'; // Always hide message when playing
+            autoplayBlockedInitially = false; // Reset flag once music has successfully played
         };
 
     } else {

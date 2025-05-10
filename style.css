@@ -37,10 +37,14 @@ header {
 header h1 {
     font-family: 'Playfair Display', serif;
     color: #ffc0cb; /* Rose pour le titre */
-    font-size: 2.8em;
-    margin-bottom: 10px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Maintenir une légère ombre pour la lisibilité */
+    font-size: 2.8em; /* Reverted from 3.5em */
+    margin-bottom: 10px; /* Reverted from 5px */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Reverted */
+    /* Removed animation, opacity, transform from previous temporary change */
 }
+
+/* Removed @keyframes titleAnimation */
+/* Removed header .subtitle styles and @keyframes subtitleAnimation */
 
 nav ul {
     list-style: none;
@@ -87,6 +91,119 @@ nav ul li a.active::after {
     width: 70%; /* Largeur de la ligne au survol/actif */
 }
 
+/* Stepper Navigation Styles */
+.stepper-nav {
+    margin-top: 15px;
+}
+
+.stepper-nav ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top for label wrapping */
+}
+
+.step {
+    display: flex;
+    flex-direction: column; /* Stack number and label vertically */
+    align-items: center;
+    text-align: center;
+    position: relative;
+    flex: 1; /* Distribute space evenly */
+    max-width: 150px; /* Max width for each step */
+}
+
+.step a {
+    text-decoration: none;
+    color: #f0e6f0; /* Default color for step text */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.step .step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #5a5a5a; /* Dark grey for future steps */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.step .step-label {
+    font-size: 0.9em;
+    color: #ccc; /* Lighter grey for future step labels */
+    transition: color 0.3s ease;
+    display: block; /* Ensure it takes its own line if needed */
+    line-height: 1.2;
+}
+
+/* Connector lines */
+.step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 16px; /* Align with the center of the number */
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background-color: #5a5a5a; /* Dark grey for future connectors */
+    transform: translateX(calc(-50% + 25px)); /* Adjust to start after the number */
+    z-index: -1; /* Behind the number */
+    transition: background-color 0.3s ease;
+}
+
+/* Styles for completed steps */
+.step.completed .step-number {
+    background-color: #ffc0cb; /* Pink for completed steps */
+    color: #4a3b3b; /* Dark text on pink */
+}
+
+.step.completed .step-label {
+    color: #ffc0cb; /* Pink label for completed */
+}
+
+.step.completed a:hover .step-label {
+    color: #fff;
+}
+.step.completed a:hover .step-number {
+    transform: scale(1.1);
+}
+
+.step.completed::after { /* Connector line for completed steps */
+    background-color: #ffc0cb; /* Pink connector */
+}
+
+/* Styles for active step */
+.step.active .step-number {
+    background-color: #ff8fab; /* Brighter pink for active step */
+    color: white;
+    border: 2px solid #fff;
+    transform: scale(1.1);
+}
+
+.step.active .step-label {
+    color: #fff; /* White label for active step */
+    font-weight: bold;
+}
+
+/* Hover on non-active, non-completed steps */
+.step:not(.active):not(.completed) a:hover .step-number {
+    background-color: #777;
+}
+
+.step:not(.active):not(.completed) a:hover .step-label {
+    color: #fff;
+}
+
 /* Styles pour le main et autres sections pour la responsivité */
 main {
     padding: 20px;
@@ -106,31 +223,49 @@ main {
 }
 
 .message-entree p {
-    font-size: 1.8em; /* Taille de police légèrement augmentée */
+    font-size: 2.4em; /* Increased font size */
     margin-bottom: 40px;
     font-family: 'Playfair Display', serif;
-    color: #5c4b4b;
+    color: #f0e6f0; /* Light lavender for better contrast and softer feel */
     text-align: center;
-    max-width: 700px; /* Limite la largeur pour une meilleure lisibilité */
+    max-width: 800px; /* Adjusted max-width for larger font */
+    line-height: 1.5; /* Adjusted line-height */
+    letter-spacing: 0.5px; /* Added letter-spacing */
+    text-shadow: 0 0 8px rgba(255, 192, 203, 0.5); /* Soft pinkish glow */
 }
 
 .message-entree p span {
-    display: block; /* Chaque phrase sur une nouvelle ligne pour l'animation */
-    opacity: 0; /* Initialement invisible */
-    transform: translateY(30px); /* Commence légèrement décalé vers le bas */
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    display: block; /* Each phrase on a new line for the animation */
+    opacity: 0; /* Initial state: invisible, animation will handle appearance */
+    /* Removed old transform and transition properties */
+}
+
+/* New keyframe animation for beautiful entrance */
+@keyframes beautifulEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(0.9) rotateX(-15deg);
+        filter: blur(3px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0deg);
+        filter: blur(0);
+    }
 }
 
 .message-entree p span.phrase-1.visible {
-    opacity: 1;
-    transform: translateY(0);
-    transition-delay: 0.3s; /* Délai pour la première phrase */
+    /* Removed old opacity, transform, and transition-delay */
+    animation: beautifulEntrance 2.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Slower duration */
+    /* Animation starts when .visible is added by JS (approx 300ms page load) */
 }
 
 .message-entree p span.phrase-2.visible {
-    opacity: 1;
-    transform: translateY(0);
-    transition-delay: 1.1s; /* Délai plus long pour la deuxième phrase */
+    /* Removed old opacity, transform, and transition-delay */
+    animation: beautifulEntrance 2.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Slower duration */
+    animation-delay: 0.8s; /* Adjusted stagger delay */
+    /* JS adds .visible for phrase-2 at approx 600ms page load.
+       Total delay for phrase-2 animation start: 600ms + 800ms = 1400ms from page load. */
 }
 
 #commencerBtn {
@@ -380,21 +515,35 @@ main#ressentiments { /* MODIFIED: Changed selector from .page-ressentiments main
     max-width: 800px; /* Largeur max pour la lettre */
     width: 90%;
     margin: 40px auto;
-    padding: 30px;
-    background-color: #fff0f1; /* Reverted from var(--rose-clair), was already #fff0f1 before */
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    padding: 40px; /* Increased padding */
+    background-image: linear-gradient(to bottom right, #fff8f9, #fff0f1); /* Subtle gradient */
+    border-radius: 15px; /* Slightly more rounded corners */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05); /* Softer, more layered shadow */
     position: relative;
-    overflow: hidden; /* Pour l'effet de déroulement si on choisit ça plus tard */
+    overflow: hidden; 
+}
+
+.lettre-conteneur::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 50px;
+    height: 50px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="rgba(233,150,122,0.2)"><path d="M50,5 C25,5 5,25 5,50 C5,75 25,95 50,95 C75,95 95,75 95,50 C95,25 75,5 50,5 Z M50,15 C69.33,15 85,30.67 85,50 C85,69.33 69.33,85 50,85 C30.67,85 15,69.33 15,50 C15,30.67 30.67,15 50,15 Z M50,25 C63.807,25 75,36.193 75,50 C75,63.807 63.807,75 50,75 C36.193,75 25,63.807 25,50 C25,36.193 36.193,25 50,25 Z M50,35 C58.284,35 65,41.716 65,50 C65,58.284 58.284,65 50,65 C41.716,65 35,58.284 35,50 C35,41.716 41.716,35 50,35 Z"/></svg>'); /* Placeholder for a seal-like SVG */
+    background-size: contain;
+    opacity: 0.5;
 }
 
 .lettre-papier {
-    color: #4a3b3b;
-    font-family: 'Playfair Display', serif; /* Police manuscrite/élégante */
-    font-size: 1.3em;
-    line-height: 1.8;
+    color: #4a3b3b; /* Maintained dark brown for readability */
+    font-family: 'Playfair Display', serif; 
+    font-size: 1.35em; /* Slightly increased font size */
+    line-height: 1.9; /* Increased line height for better flow */
     text-align: left;
-    white-space: pre-wrap; /* Conserve les sauts de ligne et espaces du texte original */
+    white-space: pre-wrap; 
+    position: relative; /* To ensure it's above the ::before pseudo-element if needed */
+    z-index: 1;
 }
 
 .texte-anime {
@@ -424,135 +573,187 @@ main#ressentiments { /* MODIFIED: Changed selector from .page-ressentiments main
     position: fixed;
     bottom: 20px;
     right: 20px;
-    z-index: 1000; /* Pour s'assurer qu'il est au-dessus des autres éléments */
+    z-index: 1001; /* Au-dessus du backdrop-overlay */
+    display: flex; /* Pour aligner le bouton et le message */
+    align-items: center; /* Centrer verticalement les items */
 }
 
 #toggleMusiqueBtn {
-    background-color: #e8b4b8; /* Rose poudré */
+    background-color: rgba(0,0,0,0.5);
     color: white;
-    border: none;
-    border-radius: 50%; /* Bouton rond */
+    border: 1px solid white;
+    border-radius: 50%;
     width: 50px;
     height: 50px;
-    font-size: 1.5em; /* Taille de l'icône */
+    font-size: 24px;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
 #toggleMusiqueBtn:hover {
-    background-color: #d19ea3; /* Rose plus foncé */
-    transform: scale(1.1);
+    background-color: rgba(0,0,0,0.7);
 }
 
-/* Et maintenant ? */
-main#et-maintenant { /* MODIFIED: Changed selector from .page-et-maintenant main to main#et-maintenant */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* justify-content: center; /* This might not be needed if align-items is enough */
-    min-height: calc(70vh - 40px); 
-    text-align: center; /* Ensures inline/text content within direct children is centered */
-    padding-bottom: 40px; /* ADDED: Ensure space below content before footer */
-}
-
-#ultimeCadeauBtn {
-    background-color: #ff8fab; 
-    color: white;
-    border: none;
-    padding: 20px 40px;
-    font-size: 1.8em;
-    font-family: 'Playfair Display', serif;
-    border-radius: 50px; 
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(255, 143, 171, 0.4);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInButtonEtMaintenant 1s ease-out 0.5s forwards;
-}
-
-#ultimeCadeauBtn:hover {
-    background-color: #ff6b9b;
-    box-shadow: 0 8px 20px rgba(255, 107, 155, 0.5);
-    transform: translateY(-3px) scale(1.05);
-}
-
-#ultimeCadeauBtn:active {
-    transform: translateY(1px) scale(1.02);
-}
-
-@keyframes fadeInButtonEtMaintenant {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-#cadeauxConteneur {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    margin-top: 40px;
-    opacity: 0; /* Hidden by default */
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    width: 100%;
-    flex-wrap: wrap; 
-}
-
-#cadeauxConteneur.visible { /* JS adds this class to show */
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.cadeau-image {
-    width: 100%;
-    max-width: 300px; 
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    opacity: 0;
-    transform: scale(0.8) rotate(-5deg);
-    animation: appearImage 0.7s ease-out forwards;
-}
-
-.cadeau-image:nth-child(1) {
-    animation-delay: 0.2s;
-}
-.cadeau-image:nth-child(2) {
-    animation-delay: 0.4s; 
-}
-
-@keyframes appearImage {
-    to {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-    }
-}
-
-/* Animation de coeur battant (optionnel) */
-.heartbeat {
+.icon-play, .icon-pause {
     display: inline-block;
-    animation: heartbeatAnimation 1.5s infinite;
 }
 
-@keyframes heartbeatAnimation {
-    0% { transform: scale(1); }
-    14% { transform: scale(1.3); }
-    28% { transform: scale(1); }
-    42% { transform: scale(1.3); }
-    70% { transform: scale(1); }
+.autoplay-message {
+    font-size: 0.9em;
+    color: #ddd; /* Light color for dark backgrounds */
+    margin-left: 10px;
+    padding: 5px 8px;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 4px;
 }
-
-/* Styles pour le lecteur audio */
-/* ...existing code... */
 
 /* Styles pour le fond étoilé */
 /* ...existing code... */
+
+/* Styles for Et Maintenant page - Dramatic Text Reveal */
+.dramatic-text-reveal {
+    max-width: 700px;
+    margin: 60px auto; /* Increased margin for spacing */
+    padding: 20px;
+    text-align: center;
+    perspective: 500px; /* For potential 3D effects on text segments */
+}
+
+.dramatic-text-reveal p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6em; /* Slightly larger base font size */
+    line-height: 1.9;
+    color: #f0f0f0; /* Light color for readability on dark background */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+.text-segment {
+    display: inline-block; /* Allows transform and better control */
+    opacity: 0;
+    transform: translateY(30px) rotateX(-20deg) scale(0.95); /* Added scale */
+    filter: blur(5px); /* Added blur */
+    transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                filter 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Adjusted duration and added filter */
+    margin-bottom: 10px; /* Spacing if they wrap */
+    padding: 0 3px; /* Small padding if needed */
+}
+
+.text-segment.visible {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg) scale(1); /* Target scale */
+    filter: blur(0px); /* Target blur */
+}
+
+.highlighted-letter {
+    color: #FFD700; /* Vibrant Gold */
+    font-weight: bold;
+    text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 15px rgba(255, 215, 0, 0.7); /* Enhanced gold glow */
+    transform: scale(1.3); /* Increased scale for bigger text */
+    display: inline-block; /* Ensures transform applies correctly */
+}
+
+/* Ensure button is hidden initially */
+#ultimeCadeauBtn {
+    /* ... existing styles ... */
+    opacity: 0; /* Start hidden */
+    transform: translateY(20px) scale(0.95); /* Start slightly down and smaller */
+    /* animation: fadeInButtonEtMaintenant 1s ease-out 0.5s forwards; */ /* Will be controlled by JS */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out !important; /* Ensure JS can override animation */
+}
+
+#ultimeCadeauBtn.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Styles for Story Collage */
+#story-collage-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Darker overlay */
+    z-index: 2000; /* Above other content, below potential future modals on top of this */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px; /* Reduced padding from 20px to 10px */
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0s 0.5s linear;
+}
+
+#story-collage-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+.story-item-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Added to prevent items from spilling out */
+}
+
+.story-item {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: scale(0.5) rotate(-15deg) translateY(50px); /* Added translateY for a more upward motion */
+    transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1); /* Slower, smoother transition */
+}
+
+.story-item.visible {
+    opacity: 1;
+    transform: scale(1) rotate(0deg) translateY(0);
+}
+
+/* Specific delays for staggered appearance - increased delays */
+#story-item-1.visible { transition-delay: 0.5s; }
+#story-item-2.visible { transition-delay: 1.8s; } /* 0.5 + 1.2 (duration) + 0.1 (buffer) approx */
+#story-item-3.visible { transition-delay: 3.1s; } /* 1.8 + 1.2 + 0.1 */
+#story-item-4.visible { transition-delay: 4.4s; } /* 3.1 + 1.2 + 0.1 */
+
+/* Styles for JE T'AIME message */
+#love-message-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; /* Ensure it's above the story items if they overlap */
+    pointer-events: none; /* Allow clicks to pass through if needed, though overlay is on top */
+}
+
+#love-message {
+    font-family: 'Playfair Display', serif;
+    font-size: 6vw; /* Responsive font size */
+    color: #FFD700; /* Gold color, similar to highlighted letters */
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px rgba(255, 215, 0, 0.7), 2px 2px 5px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: scale(0.5) translateY(20px);
+    transition: opacity 1s ease-out, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Dramatic appearance with slight overshoot */
+    transition-delay: 5.7s; /* After the last story item (4.4s + 1.2s duration) + small buffer */
+}
+
+#love-message.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}

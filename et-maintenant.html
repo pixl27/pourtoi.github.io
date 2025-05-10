@@ -10,17 +10,73 @@
     <canvas id="starryNightCanvas"></canvas>
     <header>
         <h1>Pour toi Gracy</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="souvenirs.html">Souvenirs</a></li>
-                <li><a href="ressentiments.html">Ce que je ressens</a></li>
-                <li><a href="et-maintenant.html">Et maintenant ?</a></li>
-            </ul>
+        <nav class="stepper-nav">
+            <ol>
+                <li class="step" data-step="1" data-page="index.html">
+                    <a href="index.html">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Accueil</span>
+                    </a>
+                </li>
+                <li class="step" data-step="2" data-page="souvenirs.html">
+                    <a href="souvenirs.html">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Souvenirs</span>
+                    </a>
+                </li>
+                <li class="step" data-step="3" data-page="ressentiments.html">
+                    <a href="ressentiments.html">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Ce que je ressens</span>
+                    </a>
+                </li>
+                <li class="step active" data-step="4" data-page="et-maintenant.html">
+                    <a href="et-maintenant.html">
+                        <span class="step-number">4</span>
+                        <span class="step-label">Et maintenant ?</span>
+                    </a>
+                </li>
+            </ol>
         </nav>
     </header>
     <main id="et-maintenant">
         <h2>Et maintenant ?</h2>
+
+        <div class="dramatic-text-reveal">
+            <p>
+                <span class="text-segment">Je veux me risquer à t'aimer,</span>
+                <span class="text-segment">et si tout le merveilleux de l'amour était là,</span>
+                <span class="text-segment">dans la conscience d'une fin possible,</span>
+                <span class="text-segment">dans l'envie de rester alors que tout pourrait s'écrouler d'un instant à l'autre.</span>
+                <span class="text-segment">Toi et moi, ça pourrait se terminer, comme ça,</span>
+                <span class="text-segment">mais je décide d'y croire.</span>
+                <span class="text-segment">Et ma foi en nous m'amène à ce verti<span class="highlighted-letter">G</span>e de sentiments mêlés :</span>
+                <span class="text-segment">je t'aime comme au bo<span class="highlighted-letter">R</span>d d'un effondrement et d'une infinie sécurité,</span>
+                <span class="text-segment">je t'aime comme tombant dans le vide <span class="highlighted-letter">A</span>vec le pouvoir de voler.</span>
+                <span class="text-segment">Je t'aime, <span class="highlighted-letter">C</span>onvaincu, non pas que tout finira bien,</span>
+                <span class="text-segment">mais que t'aimer est la bonne chose à faire.</span>
+                <span class="text-segment">Moi j'y crois et si toi aussi tu veux <span class="highlighted-letter">Y</span> croire , alors voici : </span>
+            </p>
+        </div>
+
+        <div id="story-collage-overlay">
+            <div class="story-item-container">
+                <video id="story-item-1" class="story-item" src="story1.mp4" muted playsinline preload="auto" aria-label="Story 1 video"></video>
+            </div>
+            <div class="story-item-container">
+                <img id="story-item-2" class="story-item" src="story2.jpg" alt="Story 2">
+            </div>
+            <div class="story-item-container">
+                <img id="story-item-3" class="story-item" src="story3.jpg" alt="Story 3">
+            </div>
+            <div class="story-item-container">
+                <img id="story-item-4" class="story-item" src="story4.jpg" alt="Story 4">
+            </div>
+            <div id="love-message-container">
+                <span id="love-message">JE T'AIME</span>
+            </div>
+        </div>
+
         <div class="ultime-cadeau-section">
             <button id="ultimeCadeauBtn" class="btn-moderne">
                 <span class="btn-moderne-texte">Mon ultime cadeau</span>
@@ -38,18 +94,16 @@
 
     <div class="lecteur-audio-conteneur">
         <audio id="musiqueFond" loop>
-            <source src="musique-douce.mp3" type="audio/mpeg">
+            <source src="song4.mp3" type="audio/mpeg">
             Votre navigateur ne supporte pas l'élément audio.
         </audio>
         <button id="toggleMusiqueBtn" aria-label="Play/Pause Musique">
             <span class="icon-play">▶️</span>
             <span class="icon-pause" style="display:none;">⏸️</span>
         </button>
+        <span id="autoplay-status" class="autoplay-message" style="display:none;"></span>
     </div>
 
-    <footer>
-        <p>&copy; 2025</p>
-    </footer>
     <script src="script.js"></script>
 </body>
 </html>
