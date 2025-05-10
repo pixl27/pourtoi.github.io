@@ -212,6 +212,17 @@ main {
     flex-grow: 1; /* Ensures main content takes available space */
 }
 
+/* Styles for et-maintenant.html page title */
+#et-maintenant h2 {
+    text-align: center;
+    color: #f0e6f0; /* Light lavender, similar to nav links */
+    font-family: 'Playfair Display', serif; /* Consistent with header h1 */
+    font-size: 2.5em; /* Slightly smaller than main h1 */
+    margin-top: 20px; /* Space above the title */
+    margin-bottom: 30px; /* Space below the title */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Consistent text shadow */
+}
+
 /* Styles pour la page Accueil */
 .message-entree {
     margin-top: 8vh; /* Utilisation de vh pour un meilleur centrage vertical relatif */
@@ -656,6 +667,42 @@ main#ressentiments { /* MODIFIED: Changed selector from .page-ressentiments main
     display: inline-block; /* Ensures transform applies correctly */
 }
 
+.ultime-cadeau-section {
+    text-align: center; /* Center the button */
+    margin-top: 40px; 
+    margin-bottom: 30px;
+}
+
+.btn-moderne {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    background-color: #ff8fab; 
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(255, 143, 171, 0.3);
+    display: inline-flex; 
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-moderne:hover {
+    background-color: #ff6b9b;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 15px rgba(255, 107, 155, 0.4);
+}
+
+.btn-moderne-icone svg {
+    width: 20px; 
+    height: 20px;
+    fill: currentColor;
+}
+
 /* Ensure button is hidden initially */
 #ultimeCadeauBtn {
     /* ... existing styles ... */
@@ -756,4 +803,90 @@ main#ressentiments { /* MODIFIED: Changed selector from .page-ressentiments main
 #love-message.visible {
     opacity: 1;
     transform: scale(1) translateY(0);
+}
+
+.cadeaux-conteneur {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out, visibility 0s 0.6s linear;
+}
+
+.cadeaux-conteneur.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0s;
+}
+
+.cadeau-image {
+    max-width: 80%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    /* ...existing responsive styles... */
+    header h1 {
+        font-size: 2.2em; /* Smaller title on small screens */
+    }
+
+    nav ul li a {
+        font-size: 1em; /* Smaller menu items */
+        padding: 8px 12px; /* Reduced padding */
+    }
+
+    .step {
+        max-width: 120px; /* Smaller steps */
+    }
+
+    .message-entree p {
+        font-size: 2em; /* Smaller text on small screens */
+        margin-bottom: 30px;
+    }
+
+    #commencerBtn {
+        font-size: 1.1em; 
+        padding: 15px 25px;
+    }
+
+    .souvenirs-conteneur {
+        padding: 20px 10px;
+    }
+
+    .carte-souvenir {
+        width: 90%; /* Full width on small screens */
+        height: auto; /* Auto height to maintain aspect ratio */
+    }
+
+    .lettre-conteneur {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    #souvenir-modal {
+        width: 95%;
+        max-width: 90%;
+    }
+
+    #story-collage-overlay {
+        grid-template-columns: 1fr; /* Stacked layout on small screens */
+        padding: 5px;
+    }
+
+    .story-item {
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    #love-message {
+        font-size: 8vw; /* Responsive font size */
+    }
 }
